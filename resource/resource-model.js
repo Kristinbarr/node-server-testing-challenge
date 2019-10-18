@@ -4,25 +4,28 @@ module.exports = {
   findAll,
   findById,
   add,
-  remove,
-};
+  remove
+}
 
 function findAll() {
-  return db('resources').select('id', 'name', 'description')
+  return db('resources')
 }
 
 function findById(id) {
-  return db('users').where({id}).first()
+  return db('users')
+    .where({ id })
+    .first()
 }
 
 async function add(resource) {
-  const [id]  = await db('resources').insert(resource)
-  return findById(id)
+  const [id] = await db('resources').insert(resource, 'id')
+  return db('resources')
+    .where({ id })
+    .first()
 }
 
 function remove(id) {
-  // const removed = await db('resources').remove()
   return db('resources')
-  .where('id', id)
-  .del()
+    .where('id', id)
+    .del()
 }
